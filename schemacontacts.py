@@ -127,7 +127,8 @@ def main(args):
 		else:
 			parent_pdb_alignment_file = arg_dict[ARG_PDB_ALIGNMENT_FILE]
 	else:
-		pdb_key = pdb_reader.File().getIDCode(file(pdb_file,'r'))
+		with open(pdb_file, 'r') as pdb_file_name:
+			pdb_key = pdb_reader.File().getIDCode(pdb_file_name)
 		
 	# The PDB chains
 	# Many PDB files include multiple chains.  The chain_identifier list includes those
@@ -187,9 +188,12 @@ def main(args):
 		if not pdb_key:
 			print("Could not find parents %s in PDB/parent aligned sequences %s.  Aborting..." % (list(parent_dict.keys()),))
 			return
+
 		aligned_prot = pdb_parent_seq_dict[pdb_key]
 		# Remove the sequence corresponding to the pdb_key, leaving only the parent sequence.
 		del pdb_parent_seq_dict[pdb_key]
+		
+		
 		# Take the first remaining sequence, which should be the parent sequence.
 		aligned_pdb = list(pdb_parent_seq_dict.values())[0]
 
@@ -197,18 +201,17 @@ def main(args):
 	if aligned_prot.replace('-','') != parent_dict[pdb_key].replace('-',''):
 		print("The PDB-aligned parent and the named parent, %s, don't match!  Aborting..." % (pdb_key,))
 		return
+	
 	# Check to ensure the aligned PDB sequence matches the residue sequence pulled directly from the PDB file.
 	if aligned_pdb.replace('-','') != pdb_reader.sequence(residues, chain_identifiers):
 		print("The parent-aligned PDB sequence, %s, and the PDB file sequence, chain(s) %s in %s, don't match!  Aborting..." % (pdb_key, chain_identifiers, pdb_file))
 		return
-	#print aligned_prot
-	#print aligned_pdb
-	#print parent_dict[pdb_key]
-	#print pdb.sequence(residues)
+
 	
 	# Align the residues with the parent protein.
 	try:
 		residues = schema.alignPDBResidues(residues, aligned_prot, aligned_pdb, parent_dict[pdb_key], chain_identifiers)
+	
 	except ValueError as ve:
 		print(ve)
 		return
