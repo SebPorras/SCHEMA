@@ -126,16 +126,18 @@ def main(args):
 
 	# Read the alignment file to create a list of parents.
 	# The parents will appear in the list in the order in which they appear in the file.
-	parent_list = schema.readMultipleSequenceAlignmentFile(file(msa_file, 'r'))
+	with open(msa_file, 'r') as file:
+		parent_list = schema.readMultipleSequenceAlignmentFile(file)
 	parents = [p for (k,p) in parent_list]
 	
 	# Get the contacts
-	pdb_contacts = schema.readContactFile(file(arg_dict[ARG_CONTACT_FILE], 'r'))
+	with open(arg_dict[ARG_CONTACT_FILE], 'r') as file:
+		pdb_contacts = schema.readContactFile(file)
 	
 	# Establish connection to output, either file or, if no output file is 
 	# specified, to standard output.
 	if ARG_OUTPUT_FILE in arg_dict:
-		output_file = file(arg_dict[ARG_OUTPUT_FILE], 'w')
+		output_file = open(arg_dict[ARG_OUTPUT_FILE], 'w')
 	else:
 		output_file = sys.stdout
 
@@ -173,15 +175,15 @@ def main(args):
 	energies = raspp.make_4d_energies(contacts, parents)
 	avg_energies = raspp.calc_average_energies(energies, parents)
 
-	tstart = time.clock()
+	tstart = time.time()
 	res = raspp.RASPP(avg_energies, parents, num_fragments-1, min_length)
-	output_file.write("# RASPP took %1.2f secs\n" % (time.clock()-tstart,))
+	output_file.write("# RASPP took %1.2f secs\n" % (time.time()-tstart,))
 	output_file.write("# RASPP found %d results\n" % (len(res),))
 
-	tstart = time.clock()
+	tstart = time.time()
 	curve = raspp.curve(res, parents, bin_width)
 	output_file.write("# RASPP found %d unique (<E>,<m>) points\n" % (len(curve),))
-	output_file.write("# RASPP curve took %1.2f secs\n" % (time.clock()-tstart,))
+	output_file.write("# RASPP curve took %1.2f secs\n" % (time.time()-tstart,))
 	output_file.write("# <E>\t<m>\tcrossover points\n")
 	for (average_E, average_m, crossovers) in curve:
 		xover_pat = '%d '*len(crossovers)
@@ -194,4 +196,5 @@ def main(args):
 def main_wrapper():
 	main(sys.argv)
 
-main_wrapper()
+if __name__ == "__main__":
+	main_wrapper()

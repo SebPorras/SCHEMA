@@ -262,8 +262,8 @@ def translate_collapsed_indices(collapsed_crossovers, collapsed_sites):
 def RASPP_SCHEMA(contacts, parents, num_crossovers, min_fragment_diversity):
 	schema_contacts = schema.getSCHEMAContacts(contacts, parents)
 	(collapsed_parents, identity_list) = collapse_parents(parents)
-	energies = raspp.make_4d_energies(schema_contacts, parents)
-	avg_energies = raspp.calc_average_energies(energies, parents)
+	energies = make_4d_energies(schema_contacts, parents)
+	avg_energies = calc_average_energies(energies, parents)
 	results = RASPP(avg_energies, parents, num_crossovers, min_fragment_diversity)
 	
 	for i in range(len(results)):
@@ -290,9 +290,9 @@ def RASPP(avg_energies, parents, num_crossovers, min_fragment_diversity):
 
 	results = []
 	# Compute the arc lengths.	
-	tstart = time.clock()
+	tstart = time.time()
 	arc_lengths = calc_arc_lengths(avg_energies, parents)
-	ttot = time.clock()-tstart
+	ttot = time.time()-tstart
 	#print "# Arc lengths calculated in %1.2f sec" % ttot
 	num_residues = len(collapsed_parents[0])
 	
