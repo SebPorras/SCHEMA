@@ -33,6 +33,8 @@ Endelman, J. et al., "Site-directed protein recombination as a shortest-path pro
 """
 
 import sys, string, random
+
+from pkg_resources import compatible_platforms
 import pdb_reader
 
 DIGITS_LETTERS = string.digits + string.ascii_letters
@@ -316,11 +318,28 @@ def getChimeraDisruption(chimera_blocks, contacts, fragments, parents):
         if parent_indices[frag_i] == parent_indices[frag_j]:
             # No disruption possible if both fragments come from the same parent.
             continue
-        pair = (parents[parent_indices[frag_i]][i], parents[parent_indices[frag_j]][j])
-        # If pair doesn't exist in any parent, it's counted as disruptive
-        if pair not in [(p[i], p[j]) for p in parents]:
-            # print chimera_blocks, i+1, j+1
-            num_disruptions += 1
+
+        comp_pairs = [(parents[parent_indices[frag_i]][i], parents[parent_indices[frag_j]][j])]
+        
+        if comp_pairs[0][0] in compatibility:
+                    for rc in compatibility[comp_pairs[0][0]]:
+                           comp_pairs.append((rc,comp_pairs[0][1]))
+        
+        if comp_pairs[0][1] in compatibility:
+                    for rc in compatibility[comp_pairs[0][1]]:
+                           comp_pairs.append((comp_pairs[0][0],rc))
+        
+        parent_pairs = [(p[i], p[j]) for p in parents]
+        
+		# If pair doesn't exist in any parent, it's counted as disruptive
+        if comp_pairs[0] not in parent_pairs:
+            for parent_pair in parent_pairs:
+                if parent_pair in comp_pairs[1:]:
+                    num_disruptions += 0.5
+                    break
+                else: 
+                    num_disruptions += 1
+            
     return num_disruptions
 
 
