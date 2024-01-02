@@ -164,7 +164,7 @@ def main(args):
 
 	# Make libraries consistent with RASPP
 	(new_parents, identical_sites) = raspp.collapse_parents(parents)
-	if len(new_parents[0]) < num_fragments*min_length:
+	if len(new_parents[0]) < num_fragments * min_length:
 		error_msg = "Minimum fragment length of %d is too large.\n%d " + \
 					"fragments with length %d cannot be found in a " + \
 					"sequence of length %d (with identities removed).  Aborting..."

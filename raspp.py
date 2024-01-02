@@ -1,6 +1,6 @@
 #! /usr/local/bin/python
 
-import sys, os, math, string, random, copy, time
+import math, time
 import schema
 
 HUGE_NUMBER = 1.0e10
@@ -129,7 +129,7 @@ class Path:
 
 def make_2d_array(dim1, dim2, init_value=0.0):
     arr = []
-    for i in range(dim1):
+    for _ in range(dim1):
         arr.append([init_value] * dim2)
     return arr
 
@@ -218,7 +218,7 @@ def make_4d_energies(contacts, parents):
 
 
 def apply_penalties(e, d, max):
-    for i in range(max):
+    for _ in range(max):
         e.append(d)
 
 
@@ -226,7 +226,7 @@ def calc_average_energies(energies, parents):
     num_residues = len(parents[0])
     num_parents = len(parents)
     avg_energies = []
-    # energy_dict = dict([(x,1) for x in energies])
+
     for i in range(num_residues - 1):
         for j in range(i + 1, num_residues):
             ij = [(ri, rj, p, q) for (ri, rj, p, q) in energies if ri == i and rj == j]
@@ -238,6 +238,7 @@ def calc_average_energies(energies, parents):
             diff = nij - nij_same
             avg = float(diff) / (num_parents**2)
             avg_energies.append((i, j, avg))
+
     return avg_energies
 
 
@@ -391,8 +392,8 @@ def RASPP(avg_energies, parents, num_crossovers, min_fragment_diversity):
     # Compute the arc lengths.
     tstart = time.time()
     arc_lengths = calc_arc_lengths(avg_energies, parents)
-    ttot = time.time() - tstart
-    # print "# Arc lengths calculated in %1.2f sec" % ttot
+    # ttot = time.time() - tstart
+    # print("# Arc lengths calculated in %1.2f sec" % ttot)
     num_residues = len(collapsed_parents[0])
 
     # Now collapse the arc lengths.  It is more efficient to

@@ -1,5 +1,8 @@
 #! /usr/local/bin/python
-"""Module for SCHEMA tools.
+
+"""SCHEMA-RICE Module. 
+
+Modified based on the module written by D. Allan Drummond, 2005. 
 
 This module provides core functions used by all the SCHEMA tools.
  
@@ -32,9 +35,8 @@ Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology
 Endelman, J. et al., "Site-directed protein recombination as a shortest-path problem," Protein Engineering, Design & Selection 17(7):589-594 (2005).
 """
 
-import sys, string, random
+import string, random
 
-from pkg_resources import compatible_platforms
 import pdb_reader
 
 DIGITS_LETTERS = string.digits + string.ascii_letters
@@ -95,7 +97,6 @@ compatibility = {
     "E": ("D"),
     "D": ("E"),
 }
-
 
 def alignPDBResidues(
     residues,
@@ -237,6 +238,7 @@ def getPDBContacts(residues, contact_distance):
                 contact = resi.isContact(resj, contact_distance)
                 if contact:
                     contacts.append((i, j, resi, resj))
+
     return contacts
 
 
@@ -327,7 +329,7 @@ def getChimeraDisruption(chimera_blocks, contacts, fragments, parents):
         
         if comp_pairs[0][1] in compatibility:
                     for rc in compatibility[comp_pairs[0][1]]:
-                           comp_pairs.append((comp_pairs[0][0],rc))
+                           comp_pairs.append((comp_pairs[0][0], rc))
         
         parent_pairs = [(p[i], p[j]) for p in parents]
         
