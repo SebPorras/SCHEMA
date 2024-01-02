@@ -1,4 +1,5 @@
-#! /usr/local/bin/python
+#!/usr/local/bin/python
+
 """Script for calculating SCHEMA contacts.
 
     ******************************************************************
@@ -269,5 +270,5 @@ def main(args):
 def main_wrapper():
     main(sys.argv)
 
-if __name__ == "__name__":
-	main_wrapper()
+if __name__ == "__main__":
+    main_wrapper()
