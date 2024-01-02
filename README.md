@@ -25,3 +25,30 @@ Endelman, J. et al., "Site-directed protein recombination as a shortest-path pro
 ```
 git clone https://github.com/SebPorras/SCHEMA.git
 ```
+
+
+# Usage 
+
+## SCHEMA-RICE  
+
+There are essentially two steps to calculate optimal crossover points using SCHEMA-RICE. 
+
+1. Generate a contact map for the proteins to be used in recombination (parental proteins). 
+
+2. Find crossover points predicted to optimise folded and diverse proteins with the RASPP algorithm. 
+
+
+## SCHEMA Tools 
+
+The original authors have also meticulously documented the original Python tools in **schema-tools-doc.html**. 
+
+If you are interested in exploring the use of these tools, the scripts have been updated to Python 3 but can be used exactly the same way as demonstrated in the original documentation. 
+
+The excerpt below details what these tools can be used for.
+
+>
+> - Generate a contact map from a PDB file and an alignment of parent proteins
+> - Calculate SCHEMA energy E and mutation m for chimeras, or an entire combinatorial library, using a contact map
+> - Enumerate crossover points and compute average <E> and <m> for the resulting libraries
+> - Find crossover points predicted to optimize folded, diverse proteins using RASPP
+>
