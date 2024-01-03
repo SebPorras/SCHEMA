@@ -35,7 +35,7 @@ There are essentially two steps to calculate optimal crossover points using SCHE
 
 1. Generate a contact map for the proteins to be used in recombination (parental proteins). 
 
-2. Find crossover points predicted to optimise folded and diverse proteins with the RASPP algorithm. 
+2. Find optimal crossover points using SCHEMA-RICE scoring and the RASPP algorithm.  
 
 
 ## SCHEMA Tools 
@@ -44,7 +44,9 @@ The original authors have also meticulously documented the original Python tools
 
 If you are interested in exploring the use of these tools, the scripts have been updated to Python 3 but can be used exactly the same way as demonstrated in the original documentation. 
 
-The excerpt below details what these tools can be used for.
+**However**, SCHEMA energy (E) is calculated using the SCHEMA-RICE algorithm which factors in the physio-chemical properties of interacting residues.  
+
+The excerpt below details what these tools can be used for. 
 
 >
 > - Generate a contact map from a PDB file and an alignment of parent proteins
