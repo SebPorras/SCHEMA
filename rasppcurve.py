@@ -3,22 +3,22 @@
 and average mutation of libraries that have the lowest average energy
 given constraints on fragment length.
 
-    ******************************************************************
-    Copyright (C) 2005  Allan Drummond, California Institute of Technology
+	******************************************************************
+	Copyright (C) 2005  Allan Drummond, California Institute of Technology
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    *******************************************************************
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	*******************************************************************
 
 
 SCHEMA and RASPP were developed in the laboratory of Frances H. Arnold at the California Institute of Technology.
@@ -129,11 +129,10 @@ def main(args):
 	with open(msa_file, 'r') as file:
 		parent_list = schema.readMultipleSequenceAlignmentFile(file)
 	parents = [p for (k,p) in parent_list]
-	
+
 	# Get the contacts
 	with open(arg_dict[ARG_CONTACT_FILE], 'r') as file:
 		pdb_contacts = schema.readContactFile(file)
-	
 	# Establish connection to output, either file or, if no output file is 
 	# specified, to standard output.
 	if ARG_OUTPUT_FILE in arg_dict:
