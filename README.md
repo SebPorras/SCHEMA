@@ -15,13 +15,13 @@ $$
 
 Where:
 
-$ E =$ The disruption of interactions 
+$E$ = The disruption of interactions 
 
-$ C =$ The binary status of whether two residues fall into the interaction cuttoff distance. 
+$C$ = The binary status of whether two residues fall into the interaction cuttoff distance. 
 
-$ P =$ The probability of interaction disruption. 
+$P$ = The probability of interaction disruption. 
 
-$ M =$ The extended scoring/weighting of the disruption by physiochemical properties of amino acids. 
+$M$ = The extended scoring/weighting of the disruption by physiochemical properties of amino acids. 
 
 
 References:
