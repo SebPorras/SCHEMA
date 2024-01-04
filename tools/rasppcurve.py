@@ -32,8 +32,8 @@ Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology
 Endelman, J. et al., "Site-directed protein recombination as a shortest-path problem," Protein Engineering, Design & Selection 17(7):589-594 (2005).
 """
 
-import sys, os, string, math, random, time
-import pdb_reader, schema, raspp
+import sys, os, time
+from . import schema, raspp
 
 ARG_MULTIPLE_SEQUENCE_ALIGNMENT_FILE = 'msa'
 ARG_CONTACT_FILE = 'con'

@@ -1,7 +1,8 @@
 #!/usr/local/bin/python
 
 
-import argparse, schema, pdb_reader, sys, raspp, time
+import argparse, sys, time
+from tools import schema, raspp, pdb_reader
 from pathlib import Path
 
 SUCCESS = 0
@@ -19,7 +20,6 @@ CONTACT_DISTANCE = 4.5
 
 
 def main():
-
 	args = setup_parser()
 
 	parent_list, parent_dict = read_parent_aln(args)
@@ -297,7 +297,6 @@ def setup_parser():
 	)
 
 	# optional arguments
-	# contact args
 	parser.add_argument(
 		"-pdbal",
 		type=validate_file,
@@ -307,12 +306,7 @@ def setup_parser():
 	parser.add_argument(
 		"-chains",
 		action="store",
-		help="The PDB chain identifers (e.g. -chain A B) Chains 'A' and ' ' are included by default.",
-	)
-	parser.add_argument(
-		"-cout",
-		action="store",
-		help="(Optional) Will create or overwrite a contact file (eg contacts.txt)",
+		help="(Optional) The PDB chain identifers (e.g. -chain A B) Chains 'A' and ' ' are included by default.",
 	)
 
 	# RASPP args
@@ -328,17 +322,20 @@ def setup_parser():
 		action="store",
 		type=int,
 		default=1,
-		help="The width of each average mutation bin",
+		help = "(Optional) The width of each average mutation bin. Default bin is 1."
 	)
 	parser.add_argument(
-		"-o", action="store", help="Will create or overwrite a file called averages.txt"
+		"-o", action="store", 
+		metavar = "output.txt", 
+		help= "(Optional) Specify where you want your RASPP curve to be saved. If this option is not used, output will be printed to stdout."
 	)
 
 	parser.add_argument(
 		"-con",
 		action="store",
-		type=validate_file,
-		help="-con contacts.txt In the format output by schemacontacts.py.",
+		metavar="contacts.txt",
+		type = validate_file,
+		help = "(Optional) You can provide an existing contact file you have previously created. If not specified, rice.py will generate a new file called contacts.txt."
 	)
 
 	return parser.parse_args()

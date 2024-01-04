@@ -1,7 +1,7 @@
 #! /usr/local/bin/python
 
 import math, time
-import schema
+from . import schema
 
 HUGE_NUMBER = 1.0e10
 

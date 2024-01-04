@@ -3,19 +3,37 @@ SCHEMA-RICE
 
 This is a software package for protein engineers. It uses protein structure and sequence information to aid researchers in designing protein recombination libraries.
 
-SCHEMA was developed originally developed in the laboratory of Frances H. Arnold at the California Institute of Technology. 
+SCHEMA was developed originally developed in the laboratory of Frances H. Arnold at the California Institute of Technology. SCHEMA-RICE was developed by Weiliang Huang in the labratory of Elizabeth Gillam at The University of Queensland. 
 
-These tools can calculate SCHEMA energies of chimeric proteins and run the RASPP algorithm to find optimal library designs. The package includes documentation and examples. 
+These tools can calculate SCHEMA energies of chimeric proteins and run the RASPP algorithm to find optimal library designs. 
 
-SCHEMA-RICE modifies the original SCHEMA algorithm and takes into account the nature of the interaction, not just the proximity of the groups. 
-This work was performed by Weiliang Huang in the labratory of Elizabeth Gillam at The University of Queensland. 
+SCHEMA-RICE modifies the original SCHEMA algorithm (Voigt et al., 2002) and takes into account the nature of the interaction, not just the proximity of the groups. 
+
+$$
+E_{1A1, 1A2} = \sum_{i \in 1A1} \sum_{j \in 1A2} C_{ij} P_{ij} M_{ij}
+$$
+
+Where:
+
+$ E =$ The disruption of interactions 
+
+$ C =$ The binary status of whether two residues fall into the interaction cuttoff distance. 
+
+$ P =$ The probability of interaction disruption. 
+
+$ M =$ The extended scoring/weighting of the disruption by physiochemical properties of amino acids. 
+
 
 References:
 
 Voigt, C. et al., "Protein building blocks preserved by recombination," Nature Structural Biology 9(7):553-558 (2002).
+
 Meyer, M. et al., "Library analysis of SCHEMA-guided recombination," Protein Science 12:1686-1693 (2003).
+
 Otey, C. et al., "Functional evolution and structural conservation in chimeric cytochromes P450: Calibrating a structure-guided approach," Chemistry & Biology 11:1-20 (2004)
+
 Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology 388:35-42 (2004).
+
 Endelman, J. et al., "Site-directed protein recombination as a shortest-path problem," Protein Engineering, Design & Selection 17(7):589-594 (2005).
 
 # Installation 
@@ -42,12 +60,14 @@ There are essentially two steps to calculate optimal crossover points using SCHE
 
 2. Find optimal crossover points using SCHEMA-RICE scoring and the RASPP algorithm.  
 
-### Usage
+### Command line options
 
-usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS]
-               [-cout COUT] [-min MIN] [-bin BIN] [-o O] [-con CON]
+```
+usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS] [-cout COUT] [-min MIN] [-bin BIN] [-o O] [-con CON]
 
-options:
+
+Options:
+
     -h, --help          Show this help message and exit
 
     -pdb PDB            A PDB file from the Protein Data Bank
@@ -64,9 +84,6 @@ options:
     -chains CHAINS      (Optional) The PDB chain identifers (e.g. -chain A B). Chains 'A' and 
                         '' are included by default.
 
-    -cout COUT          (Optional) Will create or overwrite a contact file (eg
-                        contacts.txt).
-
     -min MIN            (Optional) The minimum fragment length (minus invariant positions), in
                         residues. Default min is 4.
 
@@ -78,33 +95,37 @@ options:
     -con contacts.txt   (Optional) You can provide an existing contact file you have previously 
                         created. If not specified, rice.py will generate a new file 
                         called contacts.txt. 
-                    
+```          
 ### Example workflow 
+
+#### Required files
 
 There are two essential files you need to use the tool.
 
-1. A multiple sequence alignment (MSA) of the parental proteins (proteins you wish to recombine)in ALN format without a header. An example of this is below. lac-msa.txt is shown below. 
+1. A **multiple sequence alignment (MSA)** of the parental proteins (proteins you wish to recombine)in ALN format without a header. An example of this is below. lac-msa.txt is shown below. 
 
-> 	PSE4            FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYDAE
-> 	SED1            VQQVQKKLAALEKQSGGRLGVALINTADN-SQVLYRADERFAMCSTSKVMTAAAVLKQSE
-> 	1BTL            HPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFPMMSTFKVLLCGAVLSRID
-> 	                 :.  .:   * . ..*:*   ::  ..     :. ::**.: ** *.: .. :*   :
-> 
-> 	PSE4            QGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVGGP
-> 	SED1            THDGILQQKMTIKKADLTNWNPVTEKYVGNTMTLAELSAATLQYSDNTAMNKLLAHLGGP
-> 	1BTL            AGQEQLGRRIHYSQNDLVEYSPVTEKHLTDGMTVRELCSAAITMSDNTAANLLLTTIGGP
-> 	                  .      :  .: **. :.** ** : : :*: : . *::  ***** * :*: :***
-> 
-> 	PSE4            KGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMNQK
->	SED1            GNVTAFARSIGDTTFRLDRKEPELNTAIPGDERDTTSPLAMAKSLRKLTLGDALAGPQRA
->	1BTL            KELTAFLHNMGDHVTRLDRWEPELNEAIPNDERDTTMPVAMATTLRKLLTGELLTLASRQ
->	                  :* * :.:**   **** **:** .  .* **** * *:*.:*.*:  *. *:  .: 
->	...
+<pre class="fileContents">
+# Multiple sequence alignment for lactamases
 
-2. A PDB file to generate the contact map. 
+PSE4            FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYDAE
+SED1            VQQVQKKLAALEKQSGGRLGVALINTADN-SQVLYRADERFAMCSTSKVMTAAAVLKQSE
+1BTL            HPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFPMMSTFKVLLCGAVLSRID
+                  :.  .:   * . ..*:*   ::  ..     :. ::**.: ** *.: .. :*   :
+PSE4            QGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVGGP
+SED1            THDGILQQKMTIKKADLTNWNPVTEKYVGNTMTLAELSAATLQYSDNTAMNKLLAHLGGP
+1BTL            AGQEQLGRRIHYSQNDLVEYSPVTEKHLTDGMTVRELCSAAITMSDNTAANLLLTTIGGP
+                  .      :  .: **. :.** ** : : :*: : . *::  ***** * :*: :***
+PSE4            KGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMNQK
+SED1            GNVTAFARSIGDTTFRLDRKEPELNTAIPGDERDTTSPLAMAKSLRKLTLGDALAGPQRA
+1BTL            KELTAFLHNMGDHVTRLDRWEPELNEAIPNDERDTTMPVAMATTLRKLLTGELLTLASRQ
+                  :* * :.:**   **** **:** .  .* **** * *:*.:*.*:  *. *:  .: 
+</pre>
+
+
+2. A **PDB file** to generate the contact map. 
 
 If one of your parent sequences in the MSA matches the 
-sequence in your PDB file, you can now run your tool. For example: 
+sequence in your PDB file, you can now run the tool. For example: 
 
 ```
 python rice.py -pdb 1BTL.pdb -msa lac-msa.txt -xo 6
@@ -113,19 +134,20 @@ python rice.py -pdb 1BTL.pdb -msa lac-msa.txt -xo 6
 
 However, if your PDB structure is not found in your MSA file, you will also need to provide an alignment between the PDB sequence and one of the sequences in your MSA. An example of this is shown in PSE4-1G68.txt: 
 
->   PSE4            --FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 57
->	1G68            SKFQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 59
->	                  ***************************** ****************************
->
->	PSE4            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 117
->	1G68            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 119
->	                ************************************************************
->
->	PSE4            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 177
->	1G68            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 179
->	                ************************************************************
->	
->	...
+<pre class="fileContents">
+PSE4            --FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 57
+1G68            SKFQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 59
+                  ***************************** ****************************
+
+PSE4            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 117
+1G68            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 119
+                ************************************************************                                         
+
+PSE4            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 177
+1G68            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 179
+                ************************************************************
+
+</pre>
 
 An example command would look like this: 
 
@@ -133,14 +155,20 @@ An example command would look like this:
 python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6
 ```
 
-The final mandatory argument is the -xo option which specifies the number of crossovers you 
-wish to introduce. 
+#### Crossover points 
 
-By default, rice.py will generate a new contact file called contacts.txt. However, by using the -con option, you can provide an existing contact file which you have previously created. This is generally recommended as it can speed up the runtime of the program. For example: 
+The final mandatory argument is the -xo option which specifies the number of crossovers you 
+wish to optimise for. 
+
+#### Contact files
+
+By default, rice.py will generate a new contact file called contacts.txt. However, by using the -con option, you can provide an existing contact file which you have previously created from running rice.py. This is generally recommended as it can speed up the runtime of the program. For example: 
 
 ```
 python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -con contacts.txt
 ```
+
+#### Saving your output
 
 The -o options specifies where you would like your output to be saved. If you do not specify a file, the output will simply be printed to your stdout. For example: 
 
@@ -148,11 +176,15 @@ The -o options specifies where you would like your output to be saved. If you do
 python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -o output.txt
 ```
 
-You can also specify a minimum fragment length using the -min option. This means that the distance bewteen crossover points will not be less than this value. By default, this value is set to 4. It is generally recommended to specify to prevent RASPP from choosing trival crossovers. 
+#### Minimum fragment length
+
+You can also specify a minimum fragment length using the -min option. This means that the distance bewteen crossover points will not be less than this value. By default, this value is set to 4. It is generally recommended to specify -min to prevent RASPP from choosing trival crossovers. 
 
 ```
 python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -min 10 -o output.txt
 ```
+
+#### Bin width 
 
 Finally, when generating the RASPP output, you can specify the width of each average mutation bin if you wish. The default bin width is 1. For example: 
 
@@ -177,4 +209,3 @@ The excerpt below details what these tools can be used for.
 > - Calculate SCHEMA energy E and mutation m for chimeras, or an entire combinatorial library, using a contact map
 > - Enumerate crossover points and compute average <E> and <m> for the resulting libraries
 > - Find crossover points predicted to optimize folded, diverse proteins using RASPP
->

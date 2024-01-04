@@ -36,7 +36,7 @@ Endelman, J. et al., "Site-directed protein recombination as a shortest-path pro
 """
 
 import string, random
-import pdb_reader
+from . import pdb_reader
 
 DIGITS_LETTERS = string.digits + string.ascii_letters
 

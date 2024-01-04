@@ -1,6 +1,6 @@
 #! /usr/local/bin/python
 
-import sys, os, math, string, random
+import random
 
 def random_contact_map(length, num_contacts):
 	# Generate a random contact map
