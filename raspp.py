@@ -196,6 +196,7 @@ def make_4d_energies(contacts, parents):
 					pair = (parp[i], parq[j])
 
 					comp_pairs = [pair]
+
 					if pair[0] in compatibility:
 						for rc in compatibility[pair[0]]:
 							comp_pairs.append((rc, pair[1]))
@@ -211,8 +212,8 @@ def make_4d_energies(contacts, parents):
 							if parent_pair in comp_pairs[1:]:
 								apply_penalties(energies, (i, j, p, q), 1)
 								break
-							else:
-								apply_penalties(energies, (i, j, p, q), 2)
+						else:
+							apply_penalties(energies, (i, j, p, q), 2)
 
 	return energies
 
@@ -541,7 +542,7 @@ def curve(results, parents, bin_width, max_samples=1e10):
 			for (avg_energy, crossovers, l_min, l_max) in results
 		]
 	)
-	# print "# No. of unique RASPP results:", len(unique_results)
+	# print("# No. of unique RASPP results:", len(unique_results))
 	# Now compute the average mutation levels for these unique libraries.
 	avg_E_ms = []
 	for avg_energy, crossovers in unique_results:

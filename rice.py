@@ -37,7 +37,6 @@ def main():
 	with open(contacts_path, "r") as file:
 		pdb_contacts = schema.readContactFile(file)
 
-	print(pdb_contacts)
 	# sort where output will be sent 
 	if args.o is None:
 		output_file = sys.stdout

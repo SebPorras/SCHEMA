@@ -139,7 +139,6 @@ def main(args):
 		output_file = open(arg_dict[ARG_OUTPUT_FILE], 'w')
 	else:
 		output_file = sys.stdout
-	print(pdb_contacts)
 	# Get the minimum fragment size.
 	if ARG_MIN_FRAGMENT_SIZE in arg_dict:
 		min_length = int(arg_dict[ARG_MIN_FRAGMENT_SIZE])
