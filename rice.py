@@ -126,8 +126,8 @@ def generate_contacts(args, parent_dict: dict):
 
 	# display or save the contact file
 	path = "contacts.txt"
-	if args.cout is not None:
-		path = args.cout
+	if args.con is not None:
+		path = args.con
 	
 	with open(path, "w") as contact_file:
 		schema.writeContactFile(pdb_contacts, contact_file)

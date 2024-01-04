@@ -10,7 +10,7 @@ These tools can calculate SCHEMA energies of chimeric proteins and run the RASPP
 SCHEMA-RICE modifies the original SCHEMA algorithm (Voigt et al., 2002) and takes into account the nature of the interaction, not just the proximity of the groups. 
 
 $$
-E_{1A1, 1A2} = \sum_{i \in 1A1} \sum_{j \in 1A2} C_{ij} P_{ij} M_{ij}
+\large E_{1A1, 1A2} = \sum_{i \in 1A1} \sum_{j \in 1A2} C_{ij} P_{ij} M_{ij}
 $$
 
 Where:
