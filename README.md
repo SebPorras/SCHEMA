@@ -63,7 +63,9 @@ There are essentially two steps to calculate optimal crossover points using SCHE
 ### Command line options
 
 ```
-usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS] [-cout COUT] [-min MIN] [-bin BIN] [-o O] [-con CON]
+usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS]
+               [-min MIN] [-bin BIN] [-o output.txt] [-con contacts.txt]
+
 
 
 Options:
