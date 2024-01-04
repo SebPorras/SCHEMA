@@ -1,0 +1,21 @@
+usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS]
+               [-cout COUT] [-min MIN] [-bin BIN] [-o O] [-con CON]
+
+options:
+  -h, --help      show this help message and exit
+  -pdb PDB        A PDB file from the Protein Data Bank
+  -msa MSA        A multiple sequence alignment in ALN format (e.g. ClustalW)
+  -xo XO          The number of crossovers
+  -pdbal PDBAL    (Optional) In ALN format. If this argument is not provided,
+                  then the PDB file's ID (e.g., 1G68) will be extracted, and
+                  the sequence having that ID in the multiple sequence
+                  alignment file will be used
+  -chains CHAINS  The PDB chain identifers (e.g. -chain A B) Chains 'A' and '
+                  ' are included by default.
+  -cout COUT      (Optional) Will create or overwrite a contact file (eg
+                  contacts.txt)
+  -min MIN        The minimum fragment length (minus invariant positions), in
+                  residues. Default min is 4
+  -bin BIN        The width of each average mutation bin
+  -o O            Will create or overwrite a file called averages.txt
+  -con CON        -con contacts.txt In the format output by schemacontacts.py.

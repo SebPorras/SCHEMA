@@ -26,6 +26,11 @@ Endelman, J. et al., "Site-directed protein recombination as a shortest-path pro
 git clone https://github.com/SebPorras/SCHEMA.git
 ```
 
+2. Move into the cloned directory 
+
+```
+cd SCHEMA
+```
 
 # Usage 
 
@@ -37,6 +42,125 @@ There are essentially two steps to calculate optimal crossover points using SCHE
 
 2. Find optimal crossover points using SCHEMA-RICE scoring and the RASPP algorithm.  
 
+### Usage
+
+usage: rice.py [-h] -pdb PDB -msa MSA -xo XO [-pdbal PDBAL] [-chains CHAINS]
+               [-cout COUT] [-min MIN] [-bin BIN] [-o O] [-con CON]
+
+options:
+    -h, --help          Show this help message and exit
+
+    -pdb PDB            A PDB file from the Protein Data Bank
+
+    -msa MSA            A multiple sequence alignment in ALN format (e.g. ClustalW)
+
+    -xo XO              The number of crossovers
+
+    -pdbal PDBAL        (Optional) In ALN format. If this argument is not provided,
+                        then the PDB file's ID (e.g., 1G68) will be extracted, and
+                        the sequence having that ID in the multiple sequence
+                        alignment file will be used.
+
+    -chains CHAINS      (Optional) The PDB chain identifers (e.g. -chain A B). Chains 'A' and 
+                        '' are included by default.
+
+    -cout COUT          (Optional) Will create or overwrite a contact file (eg
+                        contacts.txt).
+
+    -min MIN            (Optional) The minimum fragment length (minus invariant positions), in
+                        residues. Default min is 4.
+
+    -bin BIN            (Optional) The width of each average mutation bin. Default bin is 1.
+
+    -o output.txt       (Optional) Specify where you want your RASPP curve to be saved. If this 
+                        option is not used, output will be printed to stdout. 
+
+    -con contacts.txt   (Optional) You can provide an existing contact file you have previously 
+                        created. If not specified, rice.py will generate a new file 
+                        called contacts.txt. 
+                    
+### Example workflow 
+
+There are two essential files you need to use the tool.
+
+1. A multiple sequence alignment (MSA) of the parental proteins (proteins you wish to recombine)in ALN format without a header. An example of this is below. lac-msa.txt is shown below. 
+
+> 	PSE4            FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYDAE
+> 	SED1            VQQVQKKLAALEKQSGGRLGVALINTADN-SQVLYRADERFAMCSTSKVMTAAAVLKQSE
+> 	1BTL            HPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFPMMSTFKVLLCGAVLSRID
+> 	                 :.  .:   * . ..*:*   ::  ..     :. ::**.: ** *.: .. :*   :
+> 
+> 	PSE4            QGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVGGP
+> 	SED1            THDGILQQKMTIKKADLTNWNPVTEKYVGNTMTLAELSAATLQYSDNTAMNKLLAHLGGP
+> 	1BTL            AGQEQLGRRIHYSQNDLVEYSPVTEKHLTDGMTVRELCSAAITMSDNTAANLLLTTIGGP
+> 	                  .      :  .: **. :.** ** : : :*: : . *::  ***** * :*: :***
+> 
+> 	PSE4            KGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMNQK
+>	SED1            GNVTAFARSIGDTTFRLDRKEPELNTAIPGDERDTTSPLAMAKSLRKLTLGDALAGPQRA
+>	1BTL            KELTAFLHNMGDHVTRLDRWEPELNEAIPNDERDTTMPVAMATTLRKLLTGELLTLASRQ
+>	                  :* * :.:**   **** **:** .  .* **** * *:*.:*.*:  *. *:  .: 
+>	...
+
+2. A PDB file to generate the contact map. 
+
+If one of your parent sequences in the MSA matches the 
+sequence in your PDB file, you can now run your tool. For example: 
+
+```
+python rice.py -pdb 1BTL.pdb -msa lac-msa.txt -xo 6
+```
+
+
+However, if your PDB structure is not found in your MSA file, you will also need to provide an alignment between the PDB sequence and one of the sequences in your MSA. An example of this is shown in PSE4-1G68.txt: 
+
+>   PSE4            --FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 57
+>	1G68            SKFQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 59
+>	                  ***************************** ****************************
+>
+>	PSE4            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 117
+>	1G68            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 119
+>	                ************************************************************
+>
+>	PSE4            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 177
+>	1G68            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 179
+>	                ************************************************************
+>	
+>	...
+
+An example command would look like this: 
+
+```
+python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6
+```
+
+The final mandatory argument is the -xo option which specifies the number of crossovers you 
+wish to introduce. 
+
+By default, rice.py will generate a new contact file called contacts.txt. However, by using the -con option, you can provide an existing contact file which you have previously created. This is generally recommended as it can speed up the runtime of the program. For example: 
+
+```
+python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -con contacts.txt
+```
+
+The -o options specifies where you would like your output to be saved. If you do not specify a file, the output will simply be printed to your stdout. For example: 
+
+```
+python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -o output.txt
+```
+
+You can also specify a minimum fragment length using the -min option. This means that the distance bewteen crossover points will not be less than this value. By default, this value is set to 4. It is generally recommended to specify to prevent RASPP from choosing trival crossovers. 
+
+```
+python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -min 10 -o output.txt
+```
+
+Finally, when generating the RASPP output, you can specify the width of each average mutation bin if you wish. The default bin width is 1. For example: 
+
+```
+python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -min 10 -bin 2
+```
+
+rice.py is simply streamlines the operation of rasppcurve.py and schemacontacts.py originally provided in the SCHEMA Tools package. If you wish to use these tools independently, or understand the program better, refer to the SCHEMA Tools section below. 
 
 ## SCHEMA Tools 
 
