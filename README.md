@@ -178,6 +178,39 @@ The -o options specifies where you would like your output to be saved. If you do
 python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -o output.txt
 ```
 
+The output from this command is shown below.
+
+<pre class="fileContents">
+# Minimum fragment length specified as 4
+# Using bin width = 1
+# RASPP took 9.85 secs
+# RASPP found 1824 results
+# RASPP found 20 unique (&lt;E&gt;,&lt;m&gt;) points
+# RASPP curve took 2.52 secs
+# &lt;E&gt;	&lt;M&gt;	crossover points
+61.7778	15.5556	10 15 21 25 29 33 
+63.5556	17.7778	10 21 25 29 33 37 
+64.1111	19.5556	10 21 25 29 33 42 
+65.6667	59.1363	42 49 140 148 157 166 
+66.1111	59.6260	42 49 140 148 157 169 
+70.1111	60.8509	36 47 125 140 152 166 
+69.6667	62.3425	42 140 148 157 166 186 
+71.2222	62.6177	47 140 148 157 166 186 
+72.4444	64.3219	42 125 140 152 166 186 
+73.2222	64.5684	42 125 140 152 168 187 
+74.2222	66.1578	42 121 140 152 166 192 
+77.6667	66.6200	43 121 140 157 172 194 
+82.0000	67.7083	21 42 121 143 166 192 
+87.0000	68.5556	36 52 121 140 166 195 
+93.3333	69.6813	42 53 121 166 192 255 
+92.4444	70.5912	42 69 94 125 166 192 
+101.444	72.1568	42 65 121 166 192 253 
+108.333	72.5647	42 65 121 166 186 217 
+109.333	73.9776	42 69 121 166 192 241 
+120.777	74.6091	36 69 117 166 203 236 
+</pre>
+
+
 #### Minimum fragment length
 
 You can also specify a minimum fragment length using the -min option. This means that the distance bewteen crossover points will not be less than this value. By default, this value is set to 4. It is generally recommended to specify -min to prevent RASPP from choosing trival crossovers. 
