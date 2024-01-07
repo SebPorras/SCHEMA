@@ -43,8 +43,9 @@ def main():
 	else:
 		output_file = open(args.o, "w")
 
-	output_file.write(f"# Minimum fragment length specified as {args.min}\n")
+	output_file.write(f"# Minimum fragment length = {args.min}\n")
 	output_file.write(f"# Using bin width = {args.bin}\n")
+	output_file.write(f"# Number of crossovers = {args.xo}\n")
 
 	# Runs the RASPP algorithm
 	find_optimal_crossovers(args, parents, pdb_contacts, output_file)
