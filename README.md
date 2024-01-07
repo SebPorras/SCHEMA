@@ -3,7 +3,7 @@ SCHEMA-RICE
 
 This is a software package for protein engineers. It uses protein structure and sequence information to aid researchers in designing protein recombination libraries.
 
-SCHEMA was developed originally developed in the laboratory of Frances H. Arnold at the California Institute of Technology. SCHEMA-RICE was developed by Weiliang Huang in the labratory of Elizabeth Gillam at The University of Queensland. 
+SCHEMA-RASPP was developed originally developed in the laboratory of Frances H. Arnold at the California Institute of Technology. SCHEMA-RICE was developed by Weiliang Huang in the laboratory of Elizabeth Gillam at The University of Queensland. 
 
 These tools can calculate SCHEMA energies of chimeric proteins and run the RASPP algorithm to find optimal library designs. 
 
