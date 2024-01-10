@@ -31,7 +31,7 @@ References:
 Voigt, C. et al., "Protein building blocks preserved by recombination," Nature Structural Biology 9(7):553-558 (2002).
 Meyer, M. et al., "Library analysis of SCHEMA-guided recombination," Protein Science 12:1686-1693 (2003).
 Otey, C. et al., "Functional evolution and structural conservation in chimeric cytochromes P450: Calibrating a structure-guided approach," Chemistry & Biology 11:1-20 (2004)
-Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology 388:35-42 (2004).
+Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology 388:35-4g (2004).
 Endelman, J. et al., "Site-directed protein recombination as a shortest-path problem," Protein Engineering, Design & Selection 17(7):589-594 (2005).
 """
 
@@ -323,12 +323,12 @@ def getChimeraDisruption(chimera_blocks, contacts, fragments, parents):
 		comp_pairs = [(parents[parent_indices[frag_i]][i], 
 				 parents[parent_indices[frag_j]][j])]
 		
-		if comp_pairs[0][0] in compatibility:
-					for rc in compatibility[comp_pairs[0][0]]:
+		if comp_pairs[0][0] in wide_compatibility:
+					for rc in wide_compatibility[comp_pairs[0][0]]:
 							comp_pairs.append((rc,comp_pairs[0][1]))
 		
-		if comp_pairs[0][1] in compatibility:
-					for rc in compatibility[comp_pairs[0][1]]:
+		if comp_pairs[0][1] in wide_compatibility:
+					for rc in wide_compatibility[comp_pairs[0][1]]:
 							comp_pairs.append((comp_pairs[0][0], rc))
 		
 		parent_pairs = [(p[i], p[j]) for p in parents]

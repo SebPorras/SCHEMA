@@ -32,7 +32,8 @@ Endelman, J. et al., "Site-directed protein recombination as a shortest-path pro
 """
 
 import sys, os
-from . import pdb_reader, schema
+#from . import pdb_reader, schema
+import pdb_reader, schema
 
 ARG_PDB_FILE = "pdb"
 ARG_PDB_ALIGNMENT_FILE = "pdbal"

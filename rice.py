@@ -63,14 +63,16 @@ def find_optimal_crossovers(args, parents, pdb_contacts, output_file):
 
 	# Make libraries consistent with raspp
 	(new_parents, identical_sites) = raspp.collapse_parents(parents)
-	new_parents_are_valid(new_parents, num_fragments, parents, args)
-
+	new_parents_are_valid(new_parents, num_fragments, parents, args) # will exit if fails
+	
 	contacts = schema.getSCHEMAContacts(pdb_contacts, parents)
 	energies = raspp.make_4d_energies(contacts, parents)
+	
 	avg_energies = raspp.calc_average_energies(energies, parents)
 
 	tstart = time.time()
 	res = raspp.RASPP(avg_energies, parents, num_fragments - 1, args.min)
+	 
 	output_file.write("# RASPP took %1.2f secs\n" % (time.time() - tstart,))
 	output_file.write("# RASPP found %d results\n" % (len(res),))
 

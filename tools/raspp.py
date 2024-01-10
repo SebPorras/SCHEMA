@@ -1,5 +1,6 @@
 #! /usr/local/bin/python
 
+from ast import arg
 import math, time
 from . import schema
 
@@ -185,6 +186,8 @@ def order_contacts(contacts):
 
 
 def make_4d_energies(contacts, parents):
+	"""RICE scoring is applied here"""
+
 	ordered_contacts = order_contacts(contacts)
 	energies = []
 	for i, j, ri, rj in ordered_contacts:
@@ -192,17 +195,18 @@ def make_4d_energies(contacts, parents):
 			parp = parents[p]
 			for q in range(len(parents)):
 				if p != q:
+
 					parq = parents[q]
 					pair = (parp[i], parq[j])
 
 					comp_pairs = [pair]
 
-					if pair[0] in compatibility:
-						for rc in compatibility[pair[0]]:
+					if pair[0] in wide_compatibility:
+						for rc in wide_compatibility[pair[0]]:
 							comp_pairs.append((rc, pair[1]))
 
-					if pair[1] in compatibility:
-						for rc in compatibility[pair[1]]:
+					if pair[1] in wide_compatibility:
+						for rc in wide_compatibility[pair[1]]:
 							comp_pairs.append((pair[0], rc))
 
 					parent_pairs = [(r[i], r[j]) for r in parents]
@@ -224,17 +228,22 @@ def apply_penalties(e, d, max):
 
 
 def calc_average_energies(energies, parents):
+	"""Calculate the average disruption between pairs of residues across
+	all the parents"""
 	num_residues = len(parents[0])
 	num_parents = len(parents)
 	avg_energies = []
-
+	
 	for i in range(num_residues - 1):
 		for j in range(i + 1, num_residues):
+
 			ij = [(ri, rj, p, q) for (ri, rj, p, q) in energies if ri == i and rj == j]
+			
 			nij = len(ij)
 			nij_same = len(
 				[(ri, rj) for (ri, rj, p, q) in ij if ri == i and rj == j and p == q]
 			)
+			
 			# print i, j, nij, nij_same
 			diff = nij - nij_same
 			avg = float(diff) / (num_parents**2)
@@ -270,6 +279,7 @@ def calc_arc_lengths(avg_energies, parents):
 	num_residues = len(parents[0])
 	num_parents = len(parents)
 	avg_energy_matrix = avg_energy_list_to_matrix(avg_energies, num_residues, 0.0)
+
 	arc_lengths = make_2d_array(num_residues, num_residues, HUGE_NUMBER)
 	for r1 in range(num_residues - 1):
 		for r2 in range(r1 + 1, num_residues):
@@ -277,6 +287,7 @@ def calc_arc_lengths(avg_energies, parents):
 				avg_energy_matrix, num_residues, r1, r2
 			)
 			arc_lengths[r1][r2] = avg_energy
+	
 	return arc_lengths
 
 
@@ -393,6 +404,7 @@ def RASPP(avg_energies, parents, num_crossovers, min_fragment_diversity):
 	# Compute the arc lengths.
 	tstart = time.time()
 	arc_lengths = calc_arc_lengths(avg_energies, parents)
+	
 	# ttot = time.time() - tstart
 	# print("# Arc lengths calculated in %1.2f sec" % ttot)
 	num_residues = len(collapsed_parents[0])
