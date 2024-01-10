@@ -36,6 +36,8 @@ Silberg, J. et al., "SCHEMA-guided protein recombination," Methods in Enzymology
 
 Endelman, J. et al., "Site-directed protein recombination as a shortest-path problem," Protein Engineering, Design & Selection 17(7):589-594 (2005).
 
+Smith, M.A., Arnold, F.H., "Designing Libraries of Chimeric Proteins Using SCHEMA Recombination and RASPP", Methods in Molecular Biology 1179: 335-343 (2014)
+
 # Installation 
 
 1. Clone this repository to your computer. It is assumed you have Python 3.8 or higher installed. 
