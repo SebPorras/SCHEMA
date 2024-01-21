@@ -176,7 +176,7 @@ def calc_average_energies_from_contacts(contacts, parents):
 
 def order_contacts(contacts):
 	new_contacts = []
-	for i, j, ri, rj in contacts:
+	for (i, j, ri, rj) in contacts:
 		if i > j:
 			new_contacts.append((j, i, rj, ri))
 		else:
@@ -190,7 +190,7 @@ def make_4d_energies(contacts, parents):
 
 	ordered_contacts = order_contacts(contacts)
 	energies = []
-	for i, j, ri, rj in ordered_contacts:
+	for (i, j, ri, rj) in ordered_contacts:
 		for p in range(len(parents)):
 			parp = parents[p]
 			for q in range(len(parents)):
@@ -201,19 +201,19 @@ def make_4d_energies(contacts, parents):
 
 					comp_pairs = [pair]
 
-					if pair[0] in wide_compatibility:
-						for rc in wide_compatibility[pair[0]]:
+					if pair[0] in compatibility:
+						for rc in compatibility[pair[0]]:
 							comp_pairs.append((rc, pair[1]))
 
-					if pair[1] in wide_compatibility:
-						for rc in wide_compatibility[pair[1]]:
+					if pair[1] in compatibility:
+						for rc in compatibility[pair[1]]:
 							comp_pairs.append((pair[0], rc))
 
 					parent_pairs = [(r[i], r[j]) for r in parents]
 
 					if pair not in parent_pairs:
 						for parent_pair in parent_pairs:
-							if parent_pair in comp_pairs[1:]:
+							if parent_pair in comp_pairs[1:]: 
 								apply_penalties(energies, (i, j, p, q), 1)
 								break
 						else:

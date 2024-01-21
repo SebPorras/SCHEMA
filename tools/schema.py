@@ -323,12 +323,12 @@ def getChimeraDisruption(chimera_blocks, contacts, fragments, parents):
 		comp_pairs = [(parents[parent_indices[frag_i]][i], 
 				 parents[parent_indices[frag_j]][j])]
 		
-		if comp_pairs[0][0] in wide_compatibility:
-					for rc in wide_compatibility[comp_pairs[0][0]]:
+		if comp_pairs[0][0] in compatibility:
+					for rc in compatibility[comp_pairs[0][0]]:
 							comp_pairs.append((rc,comp_pairs[0][1]))
 		
-		if comp_pairs[0][1] in wide_compatibility:
-					for rc in wide_compatibility[comp_pairs[0][1]]:
+		if comp_pairs[0][1] in compatibility:
+					for rc in compatibility[comp_pairs[0][1]]:
 							comp_pairs.append((comp_pairs[0][0], rc))
 		
 		parent_pairs = [(p[i], p[j]) for p in parents]
