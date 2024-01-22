@@ -222,7 +222,7 @@ def align_pdb_residues(args, parent_dict: dict):
 	return aligned_prot, aligned_pdb, pdb_key
 
 
-def read_parent_aln(args) -> dict:
+def read_parent_aln(args):
 	"""
 	Read the alignment file to create a list of parents.
 	The parents will appear in the list in the order in which they appear in the file.
@@ -235,7 +235,7 @@ def read_parent_aln(args) -> dict:
 	return parents, parent_dict
 
 
-def format_chain_identifiers(args) -> list:
+def format_chain_identifiers(args):
 	"""Many PDB files include multiple chains.  The chain_identifier
 	list includes those chains which correspond to the protein whose
 	contacts are being evaluated. Most often, chain 'A' (in the
