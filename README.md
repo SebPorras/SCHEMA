@@ -104,25 +104,19 @@ Options:
 
 There are two essential files you need to use the tool.
 
-1. A **multiple sequence alignment (MSA)** of the parental proteins (proteins you wish to recombine)in ALN format without a header. An example of this is below. lac-msa.txt is shown below. 
+1. A **multiple sequence alignment (MSA)** of the parental proteins (proteins you wish to recombine)in ALN format without a header. An example of this is below. msa.txt is shown below. 
 
 <pre class="fileContents">
-# Multiple sequence alignment for lactamases
+# Multiple sequence alignment for P450s 
 
-PSE4            FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYDAE
-SED1            VQQVQKKLAALEKQSGGRLGVALINTADN-SQVLYRADERFAMCSTSKVMTAAAVLKQSE
-1BTL            HPETLVKVKDAEDQLGARVGYIELDLNSGKILESFRPEERFPMMSTFKVLLCGAVLSRID
-                  :.  .:   * . ..*:*   ::  ..     :. ::**.: ** *.: .. :*   :
+1A1             QVPKGLKNPPGPWGWPLIGHMLTLGKNPHLALSRMSQQYGDVLQIRIGSTPVVVLSGLDT
+1A2             RVPKGLKSPPEPWGWPLLGHVLTLGKNPHLALSRMSQRYGDVLQIRIGSTPVLVLSRLDT
+                :******.** ******:**:****************:**************:*** ***
 
-PSE4            QGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVGGP
-SED1            THDGILQQKMTIKKADLTNWNPVTEKYVGNTMTLAELSAATLQYSDNTAMNKLLAHLGGP
-1BTL            AGQEQLGRRIHYSQNDLVEYSPVTEKHLTDGMTVRELCSAAITMSDNTAANLLLTTIGGP
-                  .      :  .: **. :.** ** : : :*: : . *::  ***** * :*: :***
-
-PSE4            KGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMNQK
-SED1            GNVTAFARSIGDTTFRLDRKEPELNTAIPGDERDTTSPLAMAKSLRKLTLGDALAGPQRA
-1BTL            KELTAFLHNMGDHVTRLDRWEPELNEAIPNDERDTTMPVAMATTLRKLLTGELLTLASRQ
-                  :* * :.:**   **** **:** .  .* **** * *:*.:*.*:  *. *:  .: 
+1A1             IRQALVRQGDDFKGRPDLYTFTLISNGQSMSFSPDSGPVWAARRRLAQNGLKSFSIASDP
+1A2             IRQALVRQGDDFKGRPDLYTSTLITDGQSLTFSTDSGPVWAARRRLAQNALNTFSIASDP
+                ******************** ***::***::**.***************.*::*******
+...
 </pre>
 
 
@@ -132,31 +126,26 @@ If one of your parent sequences in the MSA matches the
 sequence in your PDB file, you can now run the tool. For example: 
 
 ```
-python rice.py -pdb 1BTL.pdb -msa lac-msa.txt -xo 6
+python rice.py -pdb 1A2.pdb -msa msa.txt -xo 6
 ```
 
 
-However, if your PDB structure is not found in your MSA file, you will also need to provide an alignment between the PDB sequence and one of the sequences in your MSA. An example of this is shown in PSE4-1G68.txt: 
+However, if your PDB structure is not found in your MSA file, you will also need to provide an alignment between the PDB sequence and one of the sequences in your MSA. An example of this is shown in 1a1_2hi4_aln.txt: 
 
 <pre class="fileContents">
-PSE4            --FQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 57
-1G68            SKFQQVEQDVKAIEVSLSARIGVSVLDTQNG-EYWDYNGNQRFPLTSTFKTIACAKLLYD 59
-                  ***************************** ****************************
+2HI4            RVPKGLKSPPEPWGWPLLGHVLTLGKNPHLALSRMSQRYGDVLQIRIGSTPVLVLSRLDT
+1A1             QVPKGLKNPPGPWGWPLIGHMLTLGKNPHLALSRMSQQYGDVLQIRIGSTPVVVLSGLDT
+                :******.** ******:**:****************:**************:*** ***
 
-PSE4            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 117
-1G68            AEQGKVNPNSTVEIKKADLVTYSPVIEKQVGQAITLDDACFATMTTSDNTAANIILSAVG 119
-                ************************************************************                                         
-
-PSE4            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 177
-1G68            GPKGVTDFLRQIGDKETRLDRIEPDLNEGKLGDLRDTTTPKAIASTLNKFLFGSALSEMN 179
-                ************************************************************
-
+2HI4            IRQALVRQGDDFKGRPDLYTSTLITDGQSLTFSTDSGPVWAARRRLAQNALNTFSIASDP
+1A1             IRQALVRQGDDFKGRPDLYTFTLISNGQSMSFSPDSGPVWAARRRLAQNGLKSFSIASDP
+                ******************** ***::***::**.***************.*::*******
 </pre>
 
 An example command would look like this: 
 
 ```
-python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6
+python rice.py -pdb 2HI4.pdb -msa msa.txt -pdbal 1a1_2hi4_aln.txt -xo 6
 ```
 
 #### Crossover points 
@@ -169,7 +158,7 @@ wish to optimise for.
 By default, rice.py will generate a new contact file called contacts.txt. However, by using the -con option, you can provide an existing contact file which you have previously created from running rice.py. This is generally recommended as it can speed up the runtime of the program. For example: 
 
 ```
-python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -con contacts.txt
+python rice.py -pdb 2HI4.pdb -msa msa.txt -pdbal 1a1_2hi4_aln.txt -xo 6 -con contacts.txt
 ```
 
 #### Saving your output
@@ -177,39 +166,35 @@ python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -con co
 The -o options specifies where you would like your output to be saved. If you do not specify a file, the output will simply be printed to your stdout. For example: 
 
 ```
-python rice.py -pdb 1G68.pdb -msa lac-msa.txt -pdbal PSE4-1G68.txt -xo 6 -o output.txt
+python rice.py -pdb 2HI4.pdb -msa msa.txt -pdbal 1a1_2hi4_aln.txt -xo 6 -o output.txt
 ```
 
 The output from this command is shown below.
 
 <pre class="fileContents">
-# Minimum fragment length specified as 4
+# Minimum fragment length = 4
 # Using bin width = 1
-# RASPP took 9.85 secs
-# RASPP found 1824 results
-# RASPP found 20 unique (&lt;E&gt;,&lt;m&gt;) points
-# RASPP curve took 2.52 secs
+# Number of crossovers = 6
+# RASPP took 48.64 secs
+# RASPP found 720 results
+# RASPP found 15 unique (&lt;E&gt;,&lt;m&gt;) points
+# RASPP curve took 0.07 secs
 # &lt;E&gt;	&lt;M&gt;	crossover points
-61.7778	15.5556	10 15 21 25 29 33 
-63.5556	17.7778	10 21 25 29 33 37 
-64.1111	19.5556	10 21 25 29 33 42 
-65.6667	59.1363	42 49 140 148 157 166 
-66.1111	59.6260	42 49 140 148 157 169 
-70.1111	60.8509	36 47 125 140 152 166 
-69.6667	62.3425	42 140 148 157 166 186 
-71.2222	62.6177	47 140 148 157 166 186 
-72.4444	64.3219	42 125 140 152 166 186 
-73.2222	64.5684	42 125 140 152 168 187 
-74.2222	66.1578	42 121 140 152 166 192 
-77.6667	66.6200	43 121 140 157 172 194 
-82.0000	67.7083	21 42 121 143 166 192 
-87.0000	68.5556	36 52 121 140 166 195 
-93.3333	69.6813	42 53 121 166 192 255 
-92.4444	70.5912	42 69 94 125 166 192 
-101.444	72.1568	42 65 121 166 192 253 
-108.333	72.5647	42 65 121 166 186 217 
-109.333	73.9776	42 69 121 166 192 241 
-120.777	74.6091	36 69 117 166 203 236 
+7.0000	21.5000	304 314 337 373 426 437 
+9.0000	25.0000	53 283 314 351 426 447 
+8.0000	26.0000	38 85 304 314 337 426 
+9.0000	26.5000	38 85 283 314 337 426 
+10.5000	34.3906	243 304 314 337 426 437 
+11.5000	36.2656	231 304 314 337 426 437 
+12.0000	36.8281	228 304 314 337 426 437 
+12.5000	37.9062	85 243 304 323 426 447 
+13.5000	39.1562	85 231 304 323 426 447 
+15.0000	39.7500	38 90 142 228 304 337 
+14.0000	40.8281	53 110 228 304 332 426 
+14.0000	41.9531	57 137 228 304 337 426 
+15.0000	43.3438	81 124 188 228 304 426 
+15.0000	43.5938	90 164 188 228 304 426 
+16.5000	44.7344	94 188 243 279 351 426 
 </pre>
 
 
